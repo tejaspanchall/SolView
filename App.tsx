@@ -11,6 +11,7 @@ import {
   StyleSheet,
   Alert,
   Linking,
+  Image,
 } from "react-native";
 
 const RPC = "https://api.mainnet-beta.solana.com";
@@ -100,7 +101,7 @@ export default function App() {
     <SafeAreaView style={s.safe}>
       <ScrollView style={s.scroll}>
         {/* Header */}
-        <Text style={s.title}>SolView</Text>
+        <Image source={require("./assets/inicon.png")} style={s.headerIcon} />
         <Text style={s.subtitle}>Explore any Solana wallet</Text>
 
         {/* Search */}
@@ -218,12 +219,11 @@ const s = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 24,
   },
-  title: {
-    color: "#FFFFFF",
-    fontSize: 28,
-    fontWeight: "700",
-    marginBottom: 4,
-    letterSpacing: -0.8,
+  headerIcon: {
+    width: 120,
+    height: 40,
+    resizeMode: "contain",
+    marginBottom: 8,
   },
   subtitle: {
     color: "#8E8E93",
