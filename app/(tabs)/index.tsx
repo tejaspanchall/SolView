@@ -20,6 +20,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useWalletStore } from "../../src/stores/wallet-store";
 import { FavoriteButton } from "../../src/components/FavoriteButton";
 import { ConnectButton } from "../../src/components/ConnectButton";
+import { SwipeableHistoryItem } from "../../src/components/SwipeableHistoryItem";
 import { useWallet } from "../../src/hooks/useWallet";
 
 const short = (s: string, n = 4) => `${s.slice(0, n)}...${s.slice(-n)}`;
@@ -41,6 +42,7 @@ export default function WalletScreen() {
     const [txns, setTxns] = useState<any[]>([]);
 
     const addToHistory = useWalletStore((s: any) => s.addToHistory);
+    const removeFromHistory = useWalletStore((s: any) => s.removeFromHistory);
     const searchHistory = useWalletStore((s: any) => s.searchHistory);
     const isDevnet = useWalletStore((s: any) => s.isDevnet);
     const toggleNetwork = useWalletStore((s: any) => s.toggleNetwork);
@@ -213,18 +215,14 @@ export default function WalletScreen() {
                     {searchHistory.length > 0 && balance === null && (
                         <View style={s.historySection}>
                             <Text style={s.historyTitle}>Recent Searches</Text>
-                            {searchHistory.slice(0, 5).map((addr: string) => (
-                                <TouchableOpacity
+                            {searchHistory.slice(0, 5).map((addr: string, index: number) => (
+                                <SwipeableHistoryItem
                                     key={addr}
-                                    style={s.historyItem}
+                                    address={addr}
+                                    index={index}
                                     onPress={() => searchFromHistory(addr)}
-                                >
-                                    <Ionicons name="time-outline" size={16} color="#6B7280" />
-                                    <Text style={s.historyAddress} numberOfLines={1}>
-                                        {short(addr, 8)}
-                                    </Text>
-                                    <Ionicons name="chevron-forward" size={16} color="#6B7280" />
-                                </TouchableOpacity>
+                                    onDelete={() => removeFromHistory(addr)}
+                                />
                             ))}
                         </View>
                     )}
